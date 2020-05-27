@@ -3,52 +3,53 @@ package lc42;
 import java.util.LinkedList;
 
 public class Solution {
-    public int trap(int[] height) {
+    public int trap2(int[] height) {
         if (height == null || height.length < 3) {
             return 0;
         }
 
         int sumArea = 0;
 
-        for (int i = 1; i < height.length - 1; i++) {
-            int left = i - 1;
-            int right = i + 1;
-            // 如果当前位置都比左右高，则pass这根柱子
-            if (height[left] < height[i] || height[right] < height[i]) {
-                continue;
+        for (int i = 0; i < height.length; i++) {
+            int maxLeft = -1;
+            int maxRight = -1;
+            for (int l = i; l >= 0; l--) {
+                maxLeft = Math.max(maxLeft, height[l]);
             }
-
-            LinkedList<Integer> cap = new LinkedList<>();
-            cap.addFirst(height[i]);
-            cap.addFirst(height[left]);
-            cap.addLast(height[right]);
-
-            while (left - 1 >= 0 && height[left - 1] >= height[left]) {
-                left--;
-                cap.addFirst(height[left]);
+            for (int r = i; r < height.length; r++) {
+                maxRight = Math.max(maxRight, height[r]);
             }
+            // 当前位置上能贡献的水量
+            sumArea += Math.min(maxLeft, maxRight) - height[i];
+        }
 
-            while (right + 1 < height.length && height[right + 1] >= height[right]) {
-                right++;
-                cap.addLast(height[right]);
-            }
+        return sumArea;
+    }
 
-            int minHeight = Math.min(cap.getFirst(), cap.getLast());
-            if (cap.getFirst() > cap.getLast()) {
-                cap.removeFirst();
-                cap.addFirst(minHeight);
-            } else {
-                cap.removeLast();
-                cap.addLast(minHeight);
-            }
+    public int trap(int[] height) {
+        if (height == null || height.length < 3) {
+            return 0;
+        }
 
-            int area = minHeight * cap.size();
 
-            for (Integer c : cap) {
-                area -= c;
-            }
+        int[] maxOfLeft = new int[height.length];
+        int[] maxOfRight = new int[height.length];
 
-            sumArea += area;
+
+        int max = 0;
+        for (int i = 0; i < height.length; i++) {
+            max = Math.max(max, height[i]);
+            maxOfLeft[i] = max;
+        }
+        max = 0;
+        for (int i = height.length - 1; i >= 0; i--) {
+            max = Math.max(max, height[i]);
+            maxOfRight[i] = max;
+        }
+
+        int sumArea = 0;
+        for (int i = 0; i < height.length; i++) {
+            sumArea += Math.min(maxOfLeft[i], maxOfRight[i]) - height[i];
         }
 
         return sumArea;
