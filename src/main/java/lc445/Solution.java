@@ -33,7 +33,7 @@ public class Solution {
         BigInteger r = new BigInteger("0");
         ListNode now = l1;
         while (now != null) {
-            r = r.multiply(new BigInteger("")).add(new BigInteger(l1.val + ""));
+            r = r.multiply(new BigInteger("10")).add(new BigInteger(now.val + ""));
             now = now.next;
         }
 
