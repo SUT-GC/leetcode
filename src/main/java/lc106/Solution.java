@@ -12,7 +12,7 @@ public class Solution {
 
         TreeNode root = new TreeNode();
         int rootV = postorder[postorder.length - 1];
-        root.setVal(rootV);
+        root.val = rootV;
 
         int rootI = findIndexInInorder(rootV, inorder);
         int[] leftInorder = Arrays.copyOfRange(inorder, 0, rootI);
@@ -20,12 +20,12 @@ public class Solution {
 
         if (leftInorder.length > 0) {
             int[] leftPostOrder = findPreOrder(leftInorder, postorder, true);
-            root.setLeft(buildTree(leftInorder, leftPostOrder));
+            root.left = buildTree(leftInorder, leftPostOrder);
         }
 
         if (rightInorder.length > 0) {
             int[] rightPostOrder = findPreOrder(rightInorder, postorder, false);
-            root.setRight(buildTree(rightInorder, rightPostOrder));
+            root.right = buildTree(rightInorder, rightPostOrder);
         }
 
         return root;
