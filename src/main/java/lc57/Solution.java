@@ -23,14 +23,15 @@ public class Solution {
         if (null == newInterval || newInterval.length <= 0) {
             return intervals;
         }
-
         if (null == intervals || intervals.length <= 0) {
             return new int[][]{newInterval};
         }
 
+        // convert input to class Part Object
         List<Part> parts = convertToParts(intervals);
         Part newPart = convertToPart(newInterval);
 
+        // insert new Part to Parts
         boolean op = insertStartPoint(parts, newPart);
         if (!op) {
             op = insertEndPoint(parts, newPart);
@@ -39,8 +40,10 @@ public class Solution {
             parts.add(newPart);
         }
 
+        // merge conflict part
         parts = merge(parts);
 
+        // convert parts to int[][] Object
         return convertToArrays(parts);
     }
 
