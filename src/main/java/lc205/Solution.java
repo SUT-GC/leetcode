@@ -1,6 +1,8 @@
 package lc205;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,16 +12,35 @@ public class Solution {
             return true;
         }
 
-        Set<Character> sc = new HashSet<>();
-        Set<Character> tc = new HashSet<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            sc.add(s.charAt(i));
-        }
-        for (int i = 0; i < t.length(); i++) {
-            tc.add(t.charAt(i));
+        if (s.length() != t.length()) {
+            return false;
         }
 
-        return sc.size() == tc.size();
+        Map<Character, Character> map = new HashMap<>();
+        Set<Character> set = new HashSet<>();
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+
+        for (int i = 0; i < sChars.length; i++) {
+            char sChar = sChars[i];
+            char tChar = tChars[i];
+
+            if (map.get(sChar) == null) {
+                map.put(sChar, tChar);
+                set.add(tChar);
+                continue;
+            }
+
+            if (!Objects.equals(map.get(sChar), tChar)) {
+                return false;
+            }
+        }
+
+
+        if (set.size() != map.values().size()) {
+            return false;
+        }
+
+        return true;
     }
 }
