@@ -4,28 +4,38 @@ import java.util.*;
 
 public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        // corner case
         List<List<Integer>> ans = new ArrayList<>();
-        Set<String> dup = new HashSet<>();
-
-        // 从小到大排序
         Arrays.sort(nums);
 
-        // list 转 set
-        Map<Integer, Integer> numMap = new HashMap<>();
+//        System.out.println(Arrays.toString(nums));
 
         for (int i = 0; i < nums.length; i++) {
-            numMap.put(nums[i], i);
-        }
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
 
-        for (int i = 0; i < nums.length; i++) {
+            int k = nums.length - 1;
+            int target = -nums[i];
+
             for (int j = i + 1; j < nums.length; j++) {
-                int three = -nums[i] - nums[j];
-                String dupS = String.format("%s-%s-%s", nums[i], nums[j], -nums[i] - nums[j]);
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
 
-                if (numMap.containsKey(three) && numMap.getOrDefault(three, -1) > j && !dup.contains(dupS)) {
-                    ans.add(Arrays.asList(nums[i], nums[j], three));
-                    dup.add(dupS);
+                while (j < k && nums[j] + nums[k] > target) {
+                    k--;
+                }
+
+                if (j == k) {
+                    break;
+                }
+
+                if (nums[j] + nums[k] == target) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[k]);
+                    ans.add(list);
                 }
             }
         }

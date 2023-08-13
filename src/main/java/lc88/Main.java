@@ -1,8 +1,8 @@
-package lc97;
+package lc88;
 
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.isInterleave("ab", "bc", "bacb"));
+        solution.merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
     }
 }
